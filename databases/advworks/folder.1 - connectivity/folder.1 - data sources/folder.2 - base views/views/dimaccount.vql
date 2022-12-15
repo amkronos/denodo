@@ -1,0 +1,64 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimaccount
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimaccount.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimaccount.SCHEMANAME}' 
+    RELATIONNAME='DimAccount' 
+    OUTPUTSCHEMA (
+        accountkey = 'AccountKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        parentaccountkey = 'ParentAccountKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        accountcodealternatekey = 'AccountCodeAlternateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        parentaccountcodealternatekey = 'ParentAccountCodeAlternateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        accountdescription = 'AccountDescription' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        accounttype = 'AccountType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        operator = 'Operator' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        custommembers = 'CustomMembers' :'java.lang.String' (OPT) (sourcetypesize='300', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        valuetype = 'ValueType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        custommemberoptions = 'CustomMemberOptions' :'java.lang.String' (OPT) (sourcetypesize='200', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    SOURCECONFIGURATION (
+        delegatesqlsentenceassubquery = false,
+        datainorderfieldslist = ()
+    )
+    CONSTRAINT 'PK_DimAccount' PRIMARY KEY ( 'AccountKey' )
+    CONSTRAINT 'FK_DimAccount_DimAccount' FOREIGN KEY ( 'ParentAccountKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimAccount'( 'AccountKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimAccount' CLUSTER UNIQUE PRIMARY ( 'AccountKey' );
+
+CREATE OR REPLACE TABLE dimaccount I18N us_mst (
+        accountkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        parentaccountkey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        accountcodealternatekey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        parentaccountcodealternatekey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        accountdescription:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        accounttype:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        operator:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        custommembers:text (sourcetypeid = '-9', sourcetypesize = '300'),
+        valuetype:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        custommemberoptions:text (sourcetypeid = '-9', sourcetypesize = '200')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimAccount' PRIMARY KEY ( 'accountkey' )
+    CACHE OFF
+    BATCHSIZEINCACHE DEFAULT
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimaccount(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD accountkey (any) OPT ANY
+             ADD parentaccountkey (any) OPT ANY
+             ADD accountcodealternatekey (any) OPT ANY
+             ADD parentaccountcodealternatekey (any) OPT ANY
+             ADD accountdescription (any) OPT ANY
+             ADD accounttype (any) OPT ANY
+             ADD operator (any) OPT ANY
+             ADD custommembers (any) OPT ANY
+             ADD valuetype (any) OPT ANY
+             ADD custommemberoptions (any) OPT ANY
+        )
+        OUTPUTLIST (accountcodealternatekey, accountdescription, accountkey, accounttype, custommemberoptions, custommembers, operator, parentaccountcodealternatekey, parentaccountkey, valuetype
+        )
+        WRAPPER (jdbc dimaccount)
+    );
+

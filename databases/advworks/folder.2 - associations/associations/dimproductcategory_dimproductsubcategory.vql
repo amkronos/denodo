@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimproductcategory_dimproductsubcategory REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT dimproductsubcategory dimproductcategory PRINCIPAL (0,1)
+    ENDPOINT dimproductcategory dimproductsubcategory (0,*)
+    ADD MAPPING productcategorykey=productcategorykey;
+

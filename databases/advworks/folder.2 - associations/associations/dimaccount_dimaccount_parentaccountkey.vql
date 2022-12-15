@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION "dimaccount_dimaccount_ParentAccountKey" REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT "dimaccount_ParentAccountKey" dimaccount PRINCIPAL (0,1)
+    ENDPOINT "dimaccount_ParentAccountKey_4099" dimaccount (0,*)
+    ADD MAPPING accountkey=parentaccountkey;
+

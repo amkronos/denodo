@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimsalesterritory_dimgeography REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT dimgeography dimsalesterritory PRINCIPAL (0,1)
+    ENDPOINT dimsalesterritory dimgeography (0,*)
+    ADD MAPPING salesterritorykey=salesterritorykey;
+

@@ -1,0 +1,33 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimscenario
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimscenario.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimscenario.SCHEMANAME}' 
+    RELATIONNAME='DimScenario' 
+    OUTPUTSCHEMA (
+        scenariokey = 'ScenarioKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        scenarioname = 'ScenarioName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimScenario' PRIMARY KEY ( 'ScenarioKey' )
+    INDEX 'PK_DimScenario' CLUSTER UNIQUE PRIMARY ( 'ScenarioKey' );
+
+CREATE OR REPLACE TABLE dimscenario I18N us_mst (
+        scenariokey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        scenarioname:text (sourcetypeid = '-9', sourcetypesize = '50')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimScenario' PRIMARY KEY ( 'scenariokey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimscenario(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD scenariokey (any) OPT ANY
+             ADD scenarioname (any) OPT ANY
+        )
+        OUTPUTLIST (scenariokey, scenarioname
+        )
+        WRAPPER (jdbc dimscenario)
+    );
+

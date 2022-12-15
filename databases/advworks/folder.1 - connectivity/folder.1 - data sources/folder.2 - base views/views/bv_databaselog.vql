@@ -1,0 +1,51 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC databaselog
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.databaselog.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.databaselog.SCHEMANAME}' 
+    RELATIONNAME='DatabaseLog' 
+    OUTPUTSCHEMA (
+        databaselogid = 'DatabaseLogID' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        posttime = 'PostTime' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  NOT NULL SORTABLE,
+        databaseuser = 'DatabaseUser' :'java.lang.String' (OPT) (sourcetypesize='128', sourcetypeid='-9', sourcetypename='sysname')  NOT NULL NOT SORTABLE,
+        event = 'Event' :'java.lang.String' (OPT) (sourcetypesize='128', sourcetypeid='-9', sourcetypename='sysname')  NOT NULL NOT SORTABLE,
+        schema = 'Schema' :'java.lang.String' (OPT) (sourcetypesize='128', sourcetypeid='-9', sourcetypename='sysname')  ESCAPE NOT SORTABLE,
+        object = 'Object' :'java.lang.String' (OPT) (sourcetypesize='128', sourcetypeid='-9', sourcetypename='sysname')  NOT SORTABLE,
+        tsql = 'TSQL' :'java.lang.String' (OPT) (sourcetypesize='2147483647', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        xmlevent = 'XmlEvent' :'java.lang.String' (OPT) (sourcetypesize='2147483647', sourcetypeid='-16', sourcetypename='xml')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PK_DatabaseLog_DatabaseLogID' PRIMARY KEY ( 'DatabaseLogID' )
+    INDEX 'PK_DatabaseLog_DatabaseLogID' OTHER UNIQUE PRIMARY ( 'DatabaseLogID' );
+
+CREATE OR REPLACE TABLE bv_databaselog I18N us_mst (
+        databaselogid:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        posttime:timestamp (notnull, sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        databaseuser:text (notnull, sourcetypeid = '-9', sourcetypesize = '128'),
+        event:text (notnull, sourcetypeid = '-9', sourcetypesize = '128'),
+        schema:text (sourcetypeid = '-9', sourcetypesize = '128'),
+        object:text (sourcetypeid = '-9', sourcetypesize = '128'),
+        tsql:text (notnull, sourcetypeid = '-9', sourcetypesize = '2147483647'),
+        xmlevent:text (notnull, sourcetypeid = '2005', sourcetypesize = '2147483647')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DatabaseLog_DatabaseLogID' PRIMARY KEY ( 'databaselogid' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD databaselog(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD databaselogid (any) OPT ANY
+             ADD posttime (any) OPT ANY
+             ADD databaseuser (any) OPT ANY
+             ADD event (any) OPT ANY
+             ADD schema (any) OPT ANY
+             ADD object (any) OPT ANY
+             ADD tsql (any) OPT ANY
+             ADD xmlevent (any) OPT ANY
+        )
+        OUTPUTLIST (databaselogid, databaseuser, event, object, posttime, schema, tsql, xmlevent
+        )
+        WRAPPER (jdbc databaselog)
+    );
+

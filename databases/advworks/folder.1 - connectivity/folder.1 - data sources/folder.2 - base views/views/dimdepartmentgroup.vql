@@ -1,0 +1,38 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimdepartmentgroup
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimdepartmentgroup.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimdepartmentgroup.SCHEMANAME}' 
+    RELATIONNAME='DimDepartmentGroup' 
+    OUTPUTSCHEMA (
+        departmentgroupkey = 'DepartmentGroupKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        parentdepartmentgroupkey = 'ParentDepartmentGroupKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        departmentgroupname = 'DepartmentGroupName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimDepartmentGroup' PRIMARY KEY ( 'DepartmentGroupKey' )
+    CONSTRAINT 'FK_DimDepartmentGroup_DimDepartmentGroup' FOREIGN KEY ( 'ParentDepartmentGroupKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDepartmentGroup'( 'DepartmentGroupKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimDepartmentGroup' CLUSTER UNIQUE PRIMARY ( 'DepartmentGroupKey' );
+
+CREATE OR REPLACE TABLE dimdepartmentgroup I18N us_mst (
+        departmentgroupkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        parentdepartmentgroupkey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        departmentgroupname:text (sourcetypeid = '-9', sourcetypesize = '50')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimDepartmentGroup' PRIMARY KEY ( 'departmentgroupkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimdepartmentgroup(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD departmentgroupkey (any) OPT ANY
+             ADD parentdepartmentgroupkey (any) OPT ANY
+             ADD departmentgroupname (any) OPT ANY
+        )
+        OUTPUTLIST (departmentgroupkey, departmentgroupname, parentdepartmentgroupkey
+        )
+        WRAPPER (jdbc dimdepartmentgroup)
+    );
+

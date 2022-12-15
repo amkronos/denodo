@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION "dimorganization_dimorganization_ParentOrganizationKey" REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT "dimorganization_ParentOrganizationKey" dimorganization PRINCIPAL (0,1)
+    ENDPOINT "dimorganization_ParentOrganizationKey_4845" dimorganization (0,*)
+    ADD MAPPING organizationkey=parentorganizationkey;
+

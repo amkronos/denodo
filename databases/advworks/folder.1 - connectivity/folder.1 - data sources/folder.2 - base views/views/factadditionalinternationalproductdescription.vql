@@ -1,0 +1,36 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factadditionalinternationalproductdescription
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factadditionalinternationalproductdescription.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factadditionalinternationalproductdescription.SCHEMANAME}' 
+    RELATIONNAME='FactAdditionalInternationalProductDescription' 
+    OUTPUTSCHEMA (
+        productkey = 'ProductKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        culturename = 'CultureName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        productdescription = 'ProductDescription' :'java.lang.String' (OPT) (sourcetypesize='2147483647', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PK_FactAdditionalInternationalProductDescription_ProductKey_CultureName' PRIMARY KEY ( 'ProductKey' , 'CultureName' )
+    INDEX 'PK_FactAdditionalInternationalProductDescription_ProductKey_CultureName' CLUSTER UNIQUE PRIMARY ( 'ProductKey' , 'CultureName' );
+
+CREATE OR REPLACE TABLE factadditionalinternationalproductdescription I18N us_mst (
+        productkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        culturename:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        productdescription:text (notnull, sourcetypeid = '-9', sourcetypesize = '2147483647')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactAdditionalInternationalProductDescription_ProductKey_CultureName' PRIMARY KEY ( 'productkey' , 'culturename' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factadditionalinternationalproductdescription(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD productkey (any) OPT ANY
+             ADD culturename (any) OPT ANY
+             ADD productdescription (any) OPT ANY
+        )
+        OUTPUTLIST (culturename, productdescription, productkey
+        )
+        WRAPPER (jdbc factadditionalinternationalproductdescription)
+    );
+

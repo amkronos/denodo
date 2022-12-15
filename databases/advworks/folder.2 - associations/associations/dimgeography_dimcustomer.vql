@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimgeography_dimcustomer REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT dimcustomer dimgeography PRINCIPAL (0,1)
+    ENDPOINT dimgeography dimcustomer (0,*)
+    ADD MAPPING geographykey=geographykey;
+

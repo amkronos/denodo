@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION "dimdate_factinternetsales_ShipDateKey" REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT "factinternetsales_ShipDateKey" dimdate PRINCIPAL (0,1)
+    ENDPOINT "dimdate_ShipDateKey" factinternetsales (0,*)
+    ADD MAPPING datekey=shipdatekey;
+

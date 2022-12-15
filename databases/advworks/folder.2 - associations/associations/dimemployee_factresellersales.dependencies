@@ -1,0 +1,7 @@
+﻿/databases/advworks/folder.2 - associations/2 - associations.vql
+/databases/advworks/folder.1 - connectivity/1 - connectivity.vql
+/databases/advworks/folder.1 - connectivity/folder.1 - data sources/1 - data sources.vql
+/databases/advworks/folder.1 - connectivity/folder.1 - data sources/folder.2 - base views/2 - base views.vql
+/databases/advworks/folder.1 - connectivity/folder.1 - data sources/datasources/jdbc/advworks.vql
+/databases/advworks/folder.1 - connectivity/folder.1 - data sources/folder.2 - base views/views/dimemployee.vql
+/databases/advworks/folder.1 - connectivity/folder.1 - data sources/folder.2 - base views/views/factresellersales.vql

@@ -1,0 +1,90 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimreseller
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimreseller.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimreseller.SCHEMANAME}' 
+    RELATIONNAME='DimReseller' 
+    OUTPUTSCHEMA (
+        resellerkey = 'ResellerKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        geographykey = 'GeographyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        reselleralternatekey = 'ResellerAlternateKey' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        phone = 'Phone' :'java.lang.String' (OPT) (sourcetypesize='25', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        businesstype = 'BusinessType' :'java.lang.String' (OPT) (sourcetypesize='20', sourcetypeid='12', sourcetypename='varchar')  NOT NULL SORTABLE,
+        resellername = 'ResellerName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        numberemployees = 'NumberEmployees' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        orderfrequency = 'OrderFrequency' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='1', sourcetypename='char')  SORTABLE,
+        ordermonth = 'OrderMonth' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        firstorderyear = 'FirstOrderYear' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        lastorderyear = 'LastOrderYear' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        productline = 'ProductLine' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        addressline1 = 'AddressLine1' :'java.lang.String' (OPT) (sourcetypesize='60', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        addressline2 = 'AddressLine2' :'java.lang.String' (OPT) (sourcetypesize='60', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        annualsales = 'AnnualSales' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        bankname = 'BankName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        minpaymenttype = 'MinPaymentType' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        minpaymentamount = 'MinPaymentAmount' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        annualrevenue = 'AnnualRevenue' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        yearopened = 'YearOpened' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimReseller_ResellerKey' PRIMARY KEY ( 'ResellerKey' )
+    CONSTRAINT 'FK_DimReseller_DimGeography' FOREIGN KEY ( 'GeographyKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimGeography'( 'GeographyKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimReseller_ResellerKey' CLUSTER UNIQUE PRIMARY ( 'ResellerKey' )
+    INDEX 'AK_DimReseller_ResellerAlternateKey' OTHER UNIQUE ( 'ResellerAlternateKey' );
+
+CREATE OR REPLACE TABLE dimreseller I18N us_mst (
+        resellerkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        geographykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        reselleralternatekey:text (sourcetypeid = '-9', sourcetypesize = '15'),
+        phone:text (sourcetypeid = '-9', sourcetypesize = '25'),
+        businesstype:text (notnull, sourcetypeid = '12', sourcetypesize = '20'),
+        resellername:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        numberemployees:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        orderfrequency:text (sourcetypeid = '1', sourcetypesize = '1'),
+        ordermonth:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        firstorderyear:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        lastorderyear:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        productline:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        addressline1:text (sourcetypeid = '-9', sourcetypesize = '60'),
+        addressline2:text (sourcetypeid = '-9', sourcetypesize = '60'),
+        annualsales:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        bankname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        minpaymenttype:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        minpaymentamount:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        annualrevenue:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        yearopened:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimReseller_ResellerKey' PRIMARY KEY ( 'resellerkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimreseller(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD resellerkey (any) OPT ANY
+             ADD geographykey (any) OPT ANY
+             ADD reselleralternatekey (any) OPT ANY
+             ADD phone (any) OPT ANY
+             ADD businesstype (any) OPT ANY
+             ADD resellername (any) OPT ANY
+             ADD numberemployees (any) OPT ANY
+             ADD orderfrequency (any) OPT ANY
+             ADD ordermonth (any) OPT ANY
+             ADD firstorderyear (any) OPT ANY
+             ADD lastorderyear (any) OPT ANY
+             ADD productline (any) OPT ANY
+             ADD addressline1 (any) OPT ANY
+             ADD addressline2 (any) OPT ANY
+             ADD annualsales (any) OPT ANY
+             ADD bankname (any) OPT ANY
+             ADD minpaymenttype (any) OPT ANY
+             ADD minpaymentamount (any) OPT ANY
+             ADD annualrevenue (any) OPT ANY
+             ADD yearopened (any) OPT ANY
+        )
+        OUTPUTLIST (addressline1, addressline2, annualrevenue, annualsales, bankname, businesstype, firstorderyear, geographykey, lastorderyear, minpaymentamount, minpaymenttype, numberemployees, orderfrequency, ordermonth, phone, productline, reselleralternatekey, resellerkey, resellername, yearopened
+        )
+        WRAPPER (jdbc dimreseller)
+    );
+

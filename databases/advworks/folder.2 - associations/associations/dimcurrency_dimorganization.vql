@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimcurrency_dimorganization REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT dimorganization dimcurrency PRINCIPAL (0,1)
+    ENDPOINT dimcurrency dimorganization (0,*)
+    ADD MAPPING currencykey=currencykey;
+

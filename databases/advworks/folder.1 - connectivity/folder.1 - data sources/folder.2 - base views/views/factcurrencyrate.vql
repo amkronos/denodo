@@ -1,0 +1,46 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factcurrencyrate
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factcurrencyrate.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factcurrencyrate.SCHEMANAME}' 
+    RELATIONNAME='FactCurrencyRate' 
+    OUTPUTSCHEMA (
+        currencykey = 'CurrencyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        averagerate = 'AverageRate' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  NOT NULL SORTABLE,
+        endofdayrate = 'EndOfDayRate' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  NOT NULL SORTABLE,
+        date = 'Date' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'PK_FactCurrencyRate_CurrencyKey_DateKey' PRIMARY KEY ( 'CurrencyKey' , 'DateKey' )
+    CONSTRAINT 'FK_FactCurrencyRate_DimCurrency' FOREIGN KEY ( 'CurrencyKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimCurrency'( 'CurrencyKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactCurrencyRate_DimDate' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_FactCurrencyRate_CurrencyKey_DateKey' CLUSTER UNIQUE PRIMARY ( 'CurrencyKey' , 'DateKey' );
+
+CREATE OR REPLACE TABLE factcurrencyrate I18N us_mst (
+        currencykey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        averagerate:double (notnull, sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        endofdayrate:double (notnull, sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        date:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactCurrencyRate_CurrencyKey_DateKey' PRIMARY KEY ( 'currencykey' , 'datekey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factcurrencyrate(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD currencykey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD averagerate (any) OPT ANY
+             ADD endofdayrate (any) OPT ANY
+             ADD date (any) OPT ANY
+        )
+        OUTPUTLIST (averagerate, currencykey, date, datekey, endofdayrate
+        )
+        WRAPPER (jdbc factcurrencyrate)
+    );
+

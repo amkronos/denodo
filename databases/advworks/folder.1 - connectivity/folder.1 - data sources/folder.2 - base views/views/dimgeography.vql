@@ -1,0 +1,62 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimgeography
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimgeography.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimgeography.SCHEMANAME}' 
+    RELATIONNAME='DimGeography' 
+    OUTPUTSCHEMA (
+        geographykey = 'GeographyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        city = 'City' :'java.lang.String' (OPT) (sourcetypesize='30', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        stateprovincecode = 'StateProvinceCode' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        stateprovincename = 'StateProvinceName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        countryregioncode = 'CountryRegionCode' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        englishcountryregionname = 'EnglishCountryRegionName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanishcountryregionname = 'SpanishCountryRegionName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchcountryregionname = 'FrenchCountryRegionName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        postalcode = 'PostalCode' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        salesterritorykey = 'SalesTerritoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        ipaddresslocator = 'IpAddressLocator' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimGeography_GeographyKey' PRIMARY KEY ( 'GeographyKey' )
+    CONSTRAINT 'FK_DimGeography_DimSalesTerritory' FOREIGN KEY ( 'SalesTerritoryKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimSalesTerritory'( 'SalesTerritoryKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimGeography_GeographyKey' CLUSTER UNIQUE PRIMARY ( 'GeographyKey' );
+
+CREATE OR REPLACE TABLE dimgeography I18N us_mst (
+        geographykey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        city:text (sourcetypeid = '-9', sourcetypesize = '30'),
+        stateprovincecode:text (sourcetypeid = '-9', sourcetypesize = '3'),
+        stateprovincename:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        countryregioncode:text (sourcetypeid = '-9', sourcetypesize = '3'),
+        englishcountryregionname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        spanishcountryregionname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        frenchcountryregionname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        postalcode:text (sourcetypeid = '-9', sourcetypesize = '15'),
+        salesterritorykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        ipaddresslocator:text (sourcetypeid = '-9', sourcetypesize = '15')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimGeography_GeographyKey' PRIMARY KEY ( 'geographykey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimgeography(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD geographykey (any) OPT ANY
+             ADD city (any) OPT ANY
+             ADD stateprovincecode (any) OPT ANY
+             ADD stateprovincename (any) OPT ANY
+             ADD countryregioncode (any) OPT ANY
+             ADD englishcountryregionname (any) OPT ANY
+             ADD spanishcountryregionname (any) OPT ANY
+             ADD frenchcountryregionname (any) OPT ANY
+             ADD postalcode (any) OPT ANY
+             ADD salesterritorykey (any) OPT ANY
+             ADD ipaddresslocator (any) OPT ANY
+        )
+        OUTPUTLIST (city, countryregioncode, englishcountryregionname, frenchcountryregionname, geographykey, ipaddresslocator, postalcode, salesterritorykey, spanishcountryregionname, stateprovincecode, stateprovincename
+        )
+        WRAPPER (jdbc dimgeography)
+    );
+

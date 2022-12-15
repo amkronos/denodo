@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimorganization_factfinance REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factfinance dimorganization PRINCIPAL (0,1)
+    ENDPOINT dimorganization factfinance (0,*)
+    ADD MAPPING organizationkey=organizationkey;
+

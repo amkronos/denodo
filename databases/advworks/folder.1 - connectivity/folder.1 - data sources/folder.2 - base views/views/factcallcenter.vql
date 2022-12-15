@@ -1,0 +1,72 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factcallcenter
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factcallcenter.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factcallcenter.SCHEMANAME}' 
+    RELATIONNAME='FactCallCenter' 
+    OUTPUTSCHEMA (
+        factcallcenterid = 'FactCallCenterID' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        wagetype = 'WageType' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        shift = 'Shift' :'java.lang.String' (OPT) (sourcetypesize='20', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        leveloneoperators = 'LevelOneOperators' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        leveltwooperators = 'LevelTwoOperators' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        totaloperators = 'TotalOperators' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        calls = 'Calls' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        automaticresponses = 'AutomaticResponses' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        orders = 'Orders' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        issuesraised = 'IssuesRaised' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        averagetimeperissue = 'AverageTimePerIssue' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        servicegrade = 'ServiceGrade' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  NOT NULL SORTABLE,
+        date = 'Date' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'PK_FactCallCenter_FactCallCenterID' PRIMARY KEY ( 'FactCallCenterID' )
+    CONSTRAINT 'FK_FactCallCenter_DimDate' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_FactCallCenter_FactCallCenterID' CLUSTER UNIQUE PRIMARY ( 'FactCallCenterID' )
+    INDEX 'AK_FactCallCenter_DateKey_Shift' OTHER UNIQUE ( 'DateKey' , 'Shift' );
+
+CREATE OR REPLACE TABLE factcallcenter I18N us_mst (
+        factcallcenterid:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        wagetype:text (notnull, sourcetypeid = '-9', sourcetypesize = '15'),
+        shift:text (notnull, sourcetypeid = '-9', sourcetypesize = '20'),
+        leveloneoperators:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        leveltwooperators:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        totaloperators:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        calls:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        automaticresponses:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        orders:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        issuesraised:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        averagetimeperissue:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        servicegrade:double (notnull, sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        date:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactCallCenter_FactCallCenterID' PRIMARY KEY ( 'factcallcenterid' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factcallcenter(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD factcallcenterid (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD wagetype (any) OPT ANY
+             ADD shift (any) OPT ANY
+             ADD leveloneoperators (any) OPT ANY
+             ADD leveltwooperators (any) OPT ANY
+             ADD totaloperators (any) OPT ANY
+             ADD calls (any) OPT ANY
+             ADD automaticresponses (any) OPT ANY
+             ADD orders (any) OPT ANY
+             ADD issuesraised (any) OPT ANY
+             ADD averagetimeperissue (any) OPT ANY
+             ADD servicegrade (any) OPT ANY
+             ADD date (any) OPT ANY
+        )
+        OUTPUTLIST (automaticresponses, averagetimeperissue, calls, date, datekey, factcallcenterid, issuesraised, leveloneoperators, leveltwooperators, orders, servicegrade, shift, totaloperators, wagetype
+        )
+        WRAPPER (jdbc factcallcenter)
+    );
+

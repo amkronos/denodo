@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimdate_factproductinventory REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factproductinventory dimdate PRINCIPAL (0,1)
+    ENDPOINT dimdate factproductinventory (0,*)
+    ADD MAPPING datekey=datekey;
+

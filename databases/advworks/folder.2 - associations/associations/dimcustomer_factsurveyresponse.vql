@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimcustomer_factsurveyresponse REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factsurveyresponse dimcustomer PRINCIPAL (0,1)
+    ENDPOINT dimcustomer factsurveyresponse (0,*)
+    ADD MAPPING customerkey=customerkey;
+

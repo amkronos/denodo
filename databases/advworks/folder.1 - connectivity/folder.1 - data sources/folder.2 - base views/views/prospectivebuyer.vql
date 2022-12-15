@@ -1,0 +1,99 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC prospectivebuyer
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.prospectivebuyer.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.prospectivebuyer.SCHEMANAME}' 
+    RELATIONNAME='ProspectiveBuyer' 
+    OUTPUTSCHEMA (
+        prospectivebuyerkey = 'ProspectiveBuyerKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        prospectalternatekey = 'ProspectAlternateKey' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        firstname = 'FirstName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        middlename = 'MiddleName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        lastname = 'LastName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        birthdate = 'BirthDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  SORTABLE,
+        maritalstatus = 'MaritalStatus' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        gender = 'Gender' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        emailaddress = 'EmailAddress' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        yearlyincome = 'YearlyIncome' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        totalchildren = 'TotalChildren' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        numberchildrenathome = 'NumberChildrenAtHome' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        education = 'Education' :'java.lang.String' (OPT) (sourcetypesize='40', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        occupation = 'Occupation' :'java.lang.String' (OPT) (sourcetypesize='100', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        houseownerflag = 'HouseOwnerFlag' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        numbercarsowned = 'NumberCarsOwned' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        addressline1 = 'AddressLine1' :'java.lang.String' (OPT) (sourcetypesize='120', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        addressline2 = 'AddressLine2' :'java.lang.String' (OPT) (sourcetypesize='120', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        city = 'City' :'java.lang.String' (OPT) (sourcetypesize='30', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        stateprovincecode = 'StateProvinceCode' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        postalcode = 'PostalCode' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        phone = 'Phone' :'java.lang.String' (OPT) (sourcetypesize='20', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        salutation = 'Salutation' :'java.lang.String' (OPT) (sourcetypesize='8', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        unknown = 'Unknown' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'PK_ProspectiveBuyer_ProspectiveBuyerKey' PRIMARY KEY ( 'ProspectiveBuyerKey' )
+    INDEX 'PK_ProspectiveBuyer_ProspectiveBuyerKey' CLUSTER UNIQUE PRIMARY ( 'ProspectiveBuyerKey' );
+
+CREATE OR REPLACE TABLE prospectivebuyer I18N us_mst (
+        prospectivebuyerkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        prospectalternatekey:text (sourcetypeid = '-9', sourcetypesize = '15'),
+        firstname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        middlename:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        lastname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        birthdate:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        maritalstatus:text (sourcetypeid = '-15', sourcetypesize = '1'),
+        gender:text (sourcetypeid = '-9', sourcetypesize = '1'),
+        emailaddress:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        yearlyincome:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        totalchildren:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        numberchildrenathome:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        education:text (sourcetypeid = '-9', sourcetypesize = '40'),
+        occupation:text (sourcetypeid = '-9', sourcetypesize = '100'),
+        houseownerflag:text (sourcetypeid = '-15', sourcetypesize = '1'),
+        numbercarsowned:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        addressline1:text (sourcetypeid = '-9', sourcetypesize = '120'),
+        addressline2:text (sourcetypeid = '-9', sourcetypesize = '120'),
+        city:text (sourcetypeid = '-9', sourcetypesize = '30'),
+        stateprovincecode:text (sourcetypeid = '-9', sourcetypesize = '3'),
+        postalcode:text (sourcetypeid = '-9', sourcetypesize = '15'),
+        phone:text (sourcetypeid = '-9', sourcetypesize = '20'),
+        salutation:text (sourcetypeid = '-9', sourcetypesize = '8'),
+        unknown:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_ProspectiveBuyer_ProspectiveBuyerKey' PRIMARY KEY ( 'prospectivebuyerkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD prospectivebuyer(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD prospectivebuyerkey (any) OPT ANY
+             ADD prospectalternatekey (any) OPT ANY
+             ADD firstname (any) OPT ANY
+             ADD middlename (any) OPT ANY
+             ADD lastname (any) OPT ANY
+             ADD birthdate (any) OPT ANY
+             ADD maritalstatus (any) OPT ANY
+             ADD gender (any) OPT ANY
+             ADD emailaddress (any) OPT ANY
+             ADD yearlyincome (any) OPT ANY
+             ADD totalchildren (any) OPT ANY
+             ADD numberchildrenathome (any) OPT ANY
+             ADD education (any) OPT ANY
+             ADD occupation (any) OPT ANY
+             ADD houseownerflag (any) OPT ANY
+             ADD numbercarsowned (any) OPT ANY
+             ADD addressline1 (any) OPT ANY
+             ADD addressline2 (any) OPT ANY
+             ADD city (any) OPT ANY
+             ADD stateprovincecode (any) OPT ANY
+             ADD postalcode (any) OPT ANY
+             ADD phone (any) OPT ANY
+             ADD salutation (any) OPT ANY
+             ADD unknown (any) OPT ANY
+        )
+        OUTPUTLIST (addressline1, addressline2, birthdate, city, education, emailaddress, firstname, gender, houseownerflag, lastname, maritalstatus, middlename, numbercarsowned, numberchildrenathome, occupation, phone, postalcode, prospectalternatekey, prospectivebuyerkey, salutation, stateprovincecode, totalchildren, unknown, yearlyincome
+        )
+        WRAPPER (jdbc prospectivebuyer)
+    );
+

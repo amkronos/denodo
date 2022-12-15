@@ -1,0 +1,55 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factsurveyresponse
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factsurveyresponse.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factsurveyresponse.SCHEMANAME}' 
+    RELATIONNAME='FactSurveyResponse' 
+    OUTPUTSCHEMA (
+        surveyresponsekey = 'SurveyResponseKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        customerkey = 'CustomerKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        productcategorykey = 'ProductCategoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        englishproductcategoryname = 'EnglishProductCategoryName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        productsubcategorykey = 'ProductSubcategoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        englishproductsubcategoryname = 'EnglishProductSubcategoryName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        date = 'Date' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'PK_FactSurveyResponse_SurveyResponseKey' PRIMARY KEY ( 'SurveyResponseKey' )
+    CONSTRAINT 'FK_FactSurveyResponse_CustomerKey' FOREIGN KEY ( 'CustomerKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimCustomer'( 'CustomerKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactSurveyResponse_DateKey' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_FactSurveyResponse_SurveyResponseKey' CLUSTER UNIQUE PRIMARY ( 'SurveyResponseKey' );
+
+CREATE OR REPLACE TABLE factsurveyresponse I18N us_mst (
+        surveyresponsekey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        customerkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        productcategorykey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        englishproductcategoryname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        productsubcategorykey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        englishproductsubcategoryname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        date:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactSurveyResponse_SurveyResponseKey' PRIMARY KEY ( 'surveyresponsekey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factsurveyresponse(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD surveyresponsekey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD customerkey (any) OPT ANY
+             ADD productcategorykey (any) OPT ANY
+             ADD englishproductcategoryname (any) OPT ANY
+             ADD productsubcategorykey (any) OPT ANY
+             ADD englishproductsubcategoryname (any) OPT ANY
+             ADD date (any) OPT ANY
+        )
+        OUTPUTLIST (customerkey, date, datekey, englishproductcategoryname, englishproductsubcategoryname, productcategorykey, productsubcategorykey, surveyresponsekey
+        )
+        WRAPPER (jdbc factsurveyresponse)
+    );
+

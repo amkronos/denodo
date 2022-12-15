@@ -1,0 +1,46 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimorganization
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimorganization.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimorganization.SCHEMANAME}' 
+    RELATIONNAME='DimOrganization' 
+    OUTPUTSCHEMA (
+        organizationkey = 'OrganizationKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        parentorganizationkey = 'ParentOrganizationKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        percentageofownership = 'PercentageOfOwnership' :'java.lang.String' (OPT) (sourcetypesize='16', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        organizationname = 'OrganizationName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        currencykey = 'CurrencyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimOrganization' PRIMARY KEY ( 'OrganizationKey' )
+    CONSTRAINT 'FK_DimOrganization_DimCurrency' FOREIGN KEY ( 'CurrencyKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimCurrency'( 'CurrencyKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_DimOrganization_DimOrganization' FOREIGN KEY ( 'ParentOrganizationKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimOrganization'( 'OrganizationKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimOrganization' CLUSTER UNIQUE PRIMARY ( 'OrganizationKey' );
+
+CREATE OR REPLACE TABLE dimorganization I18N us_mst (
+        organizationkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        parentorganizationkey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        percentageofownership:text (sourcetypeid = '-9', sourcetypesize = '16'),
+        organizationname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        currencykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimOrganization' PRIMARY KEY ( 'organizationkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimorganization(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD organizationkey (any) OPT ANY
+             ADD parentorganizationkey (any) OPT ANY
+             ADD percentageofownership (any) OPT ANY
+             ADD organizationname (any) OPT ANY
+             ADD currencykey (any) OPT ANY
+        )
+        OUTPUTLIST (currencykey, organizationkey, organizationname, parentorganizationkey, percentageofownership
+        )
+        WRAPPER (jdbc dimorganization)
+    );
+

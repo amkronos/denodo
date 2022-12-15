@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION "dimdepartmentgroup_dimdepartmentgroup_ParentDepartmentGroupKey" REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT "dimdepartmentgroup_ParentDepartmentGroupKey" dimdepartmentgroup PRINCIPAL (0,1)
+    ENDPOINT "dimdepartmentgroup_ParentDepartmentGroupKey_6788" dimdepartmentgroup (0,*)
+    ADD MAPPING departmentgroupkey=parentdepartmentgroupkey;
+

@@ -1,0 +1,58 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factfinance
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factfinance.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factfinance.SCHEMANAME}' 
+    RELATIONNAME='FactFinance' 
+    OUTPUTSCHEMA (
+        financekey = 'FinanceKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        organizationkey = 'OrganizationKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        departmentgroupkey = 'DepartmentGroupKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        scenariokey = 'ScenarioKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        accountkey = 'AccountKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        amount = 'Amount' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  NOT NULL SORTABLE,
+        date = 'Date' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'FK_FactFinance_DimAccount' FOREIGN KEY ( 'AccountKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimAccount'( 'AccountKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactFinance_DimDate' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactFinance_DimDepartmentGroup' FOREIGN KEY ( 'DepartmentGroupKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDepartmentGroup'( 'DepartmentGroupKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactFinance_DimOrganization' FOREIGN KEY ( 'OrganizationKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimOrganization'( 'OrganizationKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactFinance_DimScenario' FOREIGN KEY ( 'ScenarioKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimScenario'( 'ScenarioKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE ;
+
+CREATE OR REPLACE TABLE factfinance I18N us_mst (
+        financekey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        organizationkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        departmentgroupkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        scenariokey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        accountkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        amount:double (notnull, sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        date:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factfinance(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD financekey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD organizationkey (any) OPT ANY
+             ADD departmentgroupkey (any) OPT ANY
+             ADD scenariokey (any) OPT ANY
+             ADD accountkey (any) OPT ANY
+             ADD amount (any) OPT ANY
+             ADD date (any) OPT ANY
+        )
+        OUTPUTLIST (accountkey, amount, date, datekey, departmentgroupkey, financekey, organizationkey, scenariokey
+        )
+        WRAPPER (jdbc factfinance)
+    );
+

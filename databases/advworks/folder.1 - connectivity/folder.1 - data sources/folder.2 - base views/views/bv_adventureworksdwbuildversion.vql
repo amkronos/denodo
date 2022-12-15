@@ -1,0 +1,30 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC adventureworksdwbuildversion
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.adventureworksdwbuildversion.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.adventureworksdwbuildversion.SCHEMANAME}' 
+    RELATIONNAME='AdventureWorksDWBuildVersion' 
+    OUTPUTSCHEMA (
+        dbversion = 'DBVersion' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        versiondate = 'VersionDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  SORTABLE
+    );
+
+CREATE OR REPLACE TABLE bv_adventureworksdwbuildversion I18N us_mst (
+        dbversion:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        versiondate:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD adventureworksdwbuildversion(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD dbversion (any) OPT ANY
+             ADD versiondate (any) OPT ANY
+        )
+        OUTPUTLIST (dbversion, versiondate
+        )
+        WRAPPER (jdbc adventureworksdwbuildversion)
+    );
+

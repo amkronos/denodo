@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimscenario_factfinance REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factfinance dimscenario PRINCIPAL (0,1)
+    ENDPOINT dimscenario factfinance (0,*)
+    ADD MAPPING scenariokey=scenariokey;
+

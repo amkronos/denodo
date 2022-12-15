@@ -1,0 +1,27 @@
+﻿CREATE OR REPLACE WRAPPER JDBC links
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    SQLSENTENCE='select  top 1 1, ''http://www.denodo.com'' as link from dimdate'   
+    OUTPUTSCHEMA (
+        id_0 = '' :'java.lang.Integer' (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  ESCAPE NOT NULL SORTABLE NOT UPDATEABLE,
+        link = 'link' :'java.lang.String' (sourcetypedecimals='0', sourcetypesize='21', sourcetypeid='12', sourcetypename='varchar')  NOT NULL SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE links I18N us_mst (
+        id_0:int (notnull, sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '10'),
+        link:text (notnull, sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '21')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD links(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD id_0 NOS ZERO ()
+             ADD link NOS ZERO ()
+        )
+        OUTPUTLIST (id_0, link
+        )
+        WRAPPER (jdbc links)
+    );
+

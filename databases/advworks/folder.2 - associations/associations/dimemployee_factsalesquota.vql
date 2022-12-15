@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimemployee_factsalesquota REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factsalesquota dimemployee PRINCIPAL (0,1)
+    ENDPOINT dimemployee factsalesquota (0,*)
+    ADD MAPPING employeekey=employeekey;
+

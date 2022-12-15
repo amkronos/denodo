@@ -1,0 +1,48 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimproductsubcategory
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimproductsubcategory.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimproductsubcategory.SCHEMANAME}' 
+    RELATIONNAME='DimProductSubcategory' 
+    OUTPUTSCHEMA (
+        productsubcategorykey = 'ProductSubcategoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        productsubcategoryalternatekey = 'ProductSubcategoryAlternateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        englishproductsubcategoryname = 'EnglishProductSubcategoryName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        spanishproductsubcategoryname = 'SpanishProductSubcategoryName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        frenchproductsubcategoryname = 'FrenchProductSubcategoryName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        productcategorykey = 'ProductCategoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimProductSubcategory_ProductSubcategoryKey' PRIMARY KEY ( 'ProductSubcategoryKey' )
+    CONSTRAINT 'FK_DimProductSubcategory_DimProductCategory' FOREIGN KEY ( 'ProductCategoryKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimProductCategory'( 'ProductCategoryKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimProductSubcategory_ProductSubcategoryKey' CLUSTER UNIQUE PRIMARY ( 'ProductSubcategoryKey' )
+    INDEX 'AK_DimProductSubcategory_ProductSubcategoryAlternateKey' OTHER UNIQUE ( 'ProductSubcategoryAlternateKey' );
+
+CREATE OR REPLACE TABLE dimproductsubcategory I18N us_mst (
+        productsubcategorykey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        productsubcategoryalternatekey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        englishproductsubcategoryname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        spanishproductsubcategoryname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        frenchproductsubcategoryname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        productcategorykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimProductSubcategory_ProductSubcategoryKey' PRIMARY KEY ( 'productsubcategorykey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimproductsubcategory(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD productsubcategorykey (any) OPT ANY
+             ADD productsubcategoryalternatekey (any) OPT ANY
+             ADD englishproductsubcategoryname (any) OPT ANY
+             ADD spanishproductsubcategoryname (any) OPT ANY
+             ADD frenchproductsubcategoryname (any) OPT ANY
+             ADD productcategorykey (any) OPT ANY
+        )
+        OUTPUTLIST (englishproductsubcategoryname, frenchproductsubcategoryname, productcategorykey, productsubcategoryalternatekey, productsubcategorykey, spanishproductsubcategoryname
+        )
+        WRAPPER (jdbc dimproductsubcategory)
+    );
+

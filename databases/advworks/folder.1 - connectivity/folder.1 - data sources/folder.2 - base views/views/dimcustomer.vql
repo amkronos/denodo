@@ -1,0 +1,117 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimcustomer
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimcustomer.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimcustomer.SCHEMANAME}' 
+    RELATIONNAME='DimCustomer' 
+    OUTPUTSCHEMA (
+        customerkey = 'CustomerKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        geographykey = 'GeographyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        customeralternatekey = 'CustomerAlternateKey' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        title = 'Title' :'java.lang.String' (OPT) (sourcetypesize='8', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        firstname = 'FirstName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        middlename = 'MiddleName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        lastname = 'LastName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        namestyle = 'NameStyle' :'java.lang.Boolean' (OPT) (sourcetypesize='1', sourcetypeid='-7', sourcetypename='bit')  SORTABLE,
+        birthdate = 'BirthDate' :'java.time.LocalDate' (OPT) (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='91', sourcetypename='date')  SORTABLE,
+        maritalstatus = 'MaritalStatus' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        suffix = 'Suffix' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        gender = 'Gender' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        emailaddress = 'EmailAddress' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        yearlyincome = 'YearlyIncome' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        totalchildren = 'TotalChildren' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        numberchildrenathome = 'NumberChildrenAtHome' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        englisheducation = 'EnglishEducation' :'java.lang.String' (OPT) (sourcetypesize='40', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanisheducation = 'SpanishEducation' :'java.lang.String' (OPT) (sourcetypesize='40', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frencheducation = 'FrenchEducation' :'java.lang.String' (OPT) (sourcetypesize='40', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        englishoccupation = 'EnglishOccupation' :'java.lang.String' (OPT) (sourcetypesize='100', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanishoccupation = 'SpanishOccupation' :'java.lang.String' (OPT) (sourcetypesize='100', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchoccupation = 'FrenchOccupation' :'java.lang.String' (OPT) (sourcetypesize='100', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        houseownerflag = 'HouseOwnerFlag' :'java.lang.String' (OPT) (sourcetypesize='1', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        numbercarsowned = 'NumberCarsOwned' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  SORTABLE,
+        addressline1 = 'AddressLine1' :'java.lang.String' (OPT) (sourcetypesize='120', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        addressline2 = 'AddressLine2' :'java.lang.String' (OPT) (sourcetypesize='120', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        phone = 'Phone' :'java.lang.String' (OPT) (sourcetypesize='20', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        datefirstpurchase = 'DateFirstPurchase' :'java.time.LocalDate' (OPT) (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='91', sourcetypename='date')  SORTABLE,
+        commutedistance = 'CommuteDistance' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimCustomer_CustomerKey' PRIMARY KEY ( 'CustomerKey' )
+    CONSTRAINT 'FK_DimCustomer_DimGeography' FOREIGN KEY ( 'GeographyKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimGeography'( 'GeographyKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimCustomer_CustomerKey' CLUSTER UNIQUE PRIMARY ( 'CustomerKey' )
+    INDEX 'IX_DimCustomer_CustomerAlternateKey' OTHER UNIQUE ( 'CustomerAlternateKey' );
+
+CREATE OR REPLACE TABLE dimcustomer I18N us_mst (
+        customerkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        geographykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        customeralternatekey:text (notnull, sourcetypeid = '-9', sourcetypesize = '15'),
+        title:text (sourcetypeid = '-9', sourcetypesize = '8'),
+        firstname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        middlename:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        lastname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        namestyle:boolean (sourcetypeid = '-7', sourcetypesize = '1'),
+        birthdate:localdate (sourcetypeid = '91', sourcetypedecimals = '0', sourcetypesize = '10'),
+        maritalstatus:text (sourcetypeid = '-15', sourcetypesize = '1'),
+        suffix:text (sourcetypeid = '-9', sourcetypesize = '10'),
+        gender:text (sourcetypeid = '-9', sourcetypesize = '1'),
+        emailaddress:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        yearlyincome:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        totalchildren:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        numberchildrenathome:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        englisheducation:text (sourcetypeid = '-9', sourcetypesize = '40'),
+        spanisheducation:text (sourcetypeid = '-9', sourcetypesize = '40'),
+        frencheducation:text (sourcetypeid = '-9', sourcetypesize = '40'),
+        englishoccupation:text (sourcetypeid = '-9', sourcetypesize = '100'),
+        spanishoccupation:text (sourcetypeid = '-9', sourcetypesize = '100'),
+        frenchoccupation:text (sourcetypeid = '-9', sourcetypesize = '100'),
+        houseownerflag:text (sourcetypeid = '-15', sourcetypesize = '1'),
+        numbercarsowned:int (sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        addressline1:text (sourcetypeid = '-9', sourcetypesize = '120'),
+        addressline2:text (sourcetypeid = '-9', sourcetypesize = '120'),
+        phone:text (sourcetypeid = '-9', sourcetypesize = '20'),
+        datefirstpurchase:localdate (sourcetypeid = '91', sourcetypedecimals = '0', sourcetypesize = '10'),
+        commutedistance:text (sourcetypeid = '-9', sourcetypesize = '15')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimCustomer_CustomerKey' PRIMARY KEY ( 'customerkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimcustomer(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD customerkey (any) OPT ANY
+             ADD geographykey (any) OPT ANY
+             ADD customeralternatekey (any) OPT ANY
+             ADD title (any) OPT ANY
+             ADD firstname (any) OPT ANY
+             ADD middlename (any) OPT ANY
+             ADD lastname (any) OPT ANY
+             ADD namestyle (any) OPT ANY
+             ADD birthdate (any) OPT ANY
+             ADD maritalstatus (any) OPT ANY
+             ADD suffix (any) OPT ANY
+             ADD gender (any) OPT ANY
+             ADD emailaddress (any) OPT ANY
+             ADD yearlyincome (any) OPT ANY
+             ADD totalchildren (any) OPT ANY
+             ADD numberchildrenathome (any) OPT ANY
+             ADD englisheducation (any) OPT ANY
+             ADD spanisheducation (any) OPT ANY
+             ADD frencheducation (any) OPT ANY
+             ADD englishoccupation (any) OPT ANY
+             ADD spanishoccupation (any) OPT ANY
+             ADD frenchoccupation (any) OPT ANY
+             ADD houseownerflag (any) OPT ANY
+             ADD numbercarsowned (any) OPT ANY
+             ADD addressline1 (any) OPT ANY
+             ADD addressline2 (any) OPT ANY
+             ADD phone (any) OPT ANY
+             ADD datefirstpurchase (any) OPT ANY
+             ADD commutedistance (any) OPT ANY
+        )
+        OUTPUTLIST (addressline1, addressline2, birthdate, commutedistance, customeralternatekey, customerkey, datefirstpurchase, emailaddress, englisheducation, englishoccupation, firstname, frencheducation, frenchoccupation, gender, geographykey, houseownerflag, lastname, maritalstatus, middlename, namestyle, numbercarsowned, numberchildrenathome, phone, spanisheducation, spanishoccupation, suffix, title, totalchildren, yearlyincome
+        )
+        WRAPPER (jdbc dimcustomer)
+    );
+

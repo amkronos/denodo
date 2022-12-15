@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimdate_factfinance REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factfinance dimdate PRINCIPAL (0,1)
+    ENDPOINT dimdate factfinance (0,*)
+    ADD MAPPING datekey=datekey;
+

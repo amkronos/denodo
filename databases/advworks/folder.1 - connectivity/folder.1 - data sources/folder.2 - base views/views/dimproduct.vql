@@ -1,0 +1,138 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimproduct
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimproduct.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimproduct.SCHEMANAME}' 
+    RELATIONNAME='DimProduct' 
+    OUTPUTSCHEMA (
+        productkey = 'ProductKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        productalternatekey = 'ProductAlternateKey' :'java.lang.String' (OPT) (sourcetypesize='25', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        productsubcategorykey = 'ProductSubcategoryKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        weightunitmeasurecode = 'WeightUnitMeasureCode' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        sizeunitmeasurecode = 'SizeUnitMeasureCode' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        englishproductname = 'EnglishProductName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        spanishproductname = 'SpanishProductName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        frenchproductname = 'FrenchProductName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        standardcost = 'StandardCost' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        finishedgoodsflag = 'FinishedGoodsFlag' :'java.lang.Boolean' (OPT) (sourcetypesize='1', sourcetypeid='-7', sourcetypename='bit')  NOT NULL SORTABLE,
+        color = 'Color' :'java.lang.String' (OPT) (sourcetypesize='15', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        safetystocklevel = 'SafetyStockLevel' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  SORTABLE,
+        reorderpoint = 'ReorderPoint' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  SORTABLE,
+        listprice = 'ListPrice' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        size = 'Size' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  ESCAPE SORTABLE,
+        sizerange = 'SizeRange' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        weight = 'Weight' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  SORTABLE,
+        daystomanufacture = 'DaysToManufacture' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        productline = 'ProductLine' :'java.lang.String' (OPT) (sourcetypesize='2', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        dealerprice = 'DealerPrice' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT SORTABLE,
+        class = 'Class' :'java.lang.String' (OPT) (sourcetypesize='2', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        style = 'Style' :'java.lang.String' (OPT) (sourcetypesize='2', sourcetypeid='-15', sourcetypename='nchar')  SORTABLE,
+        modelname = 'ModelName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        largephoto = 'LargePhoto' :'java.sql.Blob' (OPT) (sourcetypesize='2147483647', sourcetypeid='-3', sourcetypename='varbinary')  NOT SORTABLE,
+        englishdescription = 'EnglishDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchdescription = 'FrenchDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        chinesedescription = 'ChineseDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        arabicdescription = 'ArabicDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        hebrewdescription = 'HebrewDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        thaidescription = 'ThaiDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        germandescription = 'GermanDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        japanesedescription = 'JapaneseDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        turkishdescription = 'TurkishDescription' :'java.lang.String' (OPT) (sourcetypesize='400', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        startdate = 'StartDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  SORTABLE,
+        enddate = 'EndDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  SORTABLE,
+        status = 'Status' :'java.lang.String' (OPT) (sourcetypesize='7', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimProduct_ProductKey' PRIMARY KEY ( 'ProductKey' )
+    CONSTRAINT 'FK_DimProduct_DimProductSubcategory' FOREIGN KEY ( 'ProductSubcategoryKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimProductSubcategory'( 'ProductSubcategoryKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_DimProduct_ProductKey' CLUSTER UNIQUE PRIMARY ( 'ProductKey' )
+    INDEX 'AK_DimProduct_ProductAlternateKey_StartDate' OTHER UNIQUE ( 'ProductAlternateKey' , 'StartDate' );
+
+CREATE OR REPLACE TABLE dimproduct I18N us_mst (
+        productkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        productalternatekey:text (sourcetypeid = '-9', sourcetypesize = '25'),
+        productsubcategorykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        weightunitmeasurecode:text (sourcetypeid = '-15', sourcetypesize = '3'),
+        sizeunitmeasurecode:text (sourcetypeid = '-15', sourcetypesize = '3'),
+        englishproductname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        spanishproductname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        frenchproductname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        standardcost:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        finishedgoodsflag:boolean (notnull, sourcetypeid = '-7', sourcetypesize = '1'),
+        color:text (notnull, sourcetypeid = '-9', sourcetypesize = '15'),
+        safetystocklevel:int (sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        reorderpoint:int (sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        listprice:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        size:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        sizerange:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        weight:double (sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        daystomanufacture:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        productline:text (sourcetypeid = '-15', sourcetypesize = '2'),
+        dealerprice:decimal (sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        class:text (sourcetypeid = '-15', sourcetypesize = '2'),
+        style:text (sourcetypeid = '-15', sourcetypesize = '2'),
+        modelname:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        largephoto:blob (sourcetypeid = '-3', sourcetypesize = '2147483647'),
+        englishdescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        frenchdescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        chinesedescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        arabicdescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        hebrewdescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        thaidescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        germandescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        japanesedescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        turkishdescription:text (sourcetypeid = '-9', sourcetypesize = '400'),
+        startdate:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        enddate:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        status:text (sourcetypeid = '-9', sourcetypesize = '7')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimProduct_ProductKey' PRIMARY KEY ( 'productkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimproduct(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD productkey (any) OPT ANY
+             ADD productalternatekey (any) OPT ANY
+             ADD productsubcategorykey (any) OPT ANY
+             ADD weightunitmeasurecode (any) OPT ANY
+             ADD sizeunitmeasurecode (any) OPT ANY
+             ADD englishproductname (any) OPT ANY
+             ADD spanishproductname (any) OPT ANY
+             ADD frenchproductname (any) OPT ANY
+             ADD standardcost (any) OPT ANY
+             ADD finishedgoodsflag (any) OPT ANY
+             ADD color (any) OPT ANY
+             ADD safetystocklevel (any) OPT ANY
+             ADD reorderpoint (any) OPT ANY
+             ADD listprice (any) OPT ANY
+             ADD size (any) OPT ANY
+             ADD sizerange (any) OPT ANY
+             ADD weight (any) OPT ANY
+             ADD daystomanufacture (any) OPT ANY
+             ADD productline (any) OPT ANY
+             ADD dealerprice (any) OPT ANY
+             ADD class (any) OPT ANY
+             ADD style (any) OPT ANY
+             ADD modelname (any) OPT ANY
+             ADD englishdescription (any) OPT ANY
+             ADD frenchdescription (any) OPT ANY
+             ADD chinesedescription (any) OPT ANY
+             ADD arabicdescription (any) OPT ANY
+             ADD hebrewdescription (any) OPT ANY
+             ADD thaidescription (any) OPT ANY
+             ADD germandescription (any) OPT ANY
+             ADD japanesedescription (any) OPT ANY
+             ADD turkishdescription (any) OPT ANY
+             ADD startdate (any) OPT ANY
+             ADD enddate (any) OPT ANY
+             ADD status (any) OPT ANY
+             ADD largephoto NOS ZERO ()
+        )
+        OUTPUTLIST (arabicdescription, chinesedescription, class, color, daystomanufacture, dealerprice, enddate, englishdescription, englishproductname, finishedgoodsflag, frenchdescription, frenchproductname, germandescription, hebrewdescription, japanesedescription, largephoto, listprice, modelname, productalternatekey, productkey, productline, productsubcategorykey, reorderpoint, safetystocklevel, size, sizerange, sizeunitmeasurecode, spanishproductname, standardcost, startdate, status, style, thaidescription, turkishdescription, weight, weightunitmeasurecode
+        )
+        WRAPPER (jdbc dimproduct)
+    );
+

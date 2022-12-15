@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimdate_factcallcenter REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factcallcenter dimdate PRINCIPAL (0,1)
+    ENDPOINT dimdate factcallcenter (0,*)
+    ADD MAPPING datekey=datekey;
+

@@ -1,0 +1,39 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimsalesreason
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimsalesreason.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimsalesreason.SCHEMANAME}' 
+    RELATIONNAME='DimSalesReason' 
+    OUTPUTSCHEMA (
+        salesreasonkey = 'SalesReasonKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        salesreasonalternatekey = 'SalesReasonAlternateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        salesreasonname = 'SalesReasonName' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        salesreasonreasontype = 'SalesReasonReasonType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PK_DimSalesReason_SalesReasonKey' PRIMARY KEY ( 'SalesReasonKey' )
+    INDEX 'PK_DimSalesReason_SalesReasonKey' CLUSTER UNIQUE PRIMARY ( 'SalesReasonKey' );
+
+CREATE OR REPLACE TABLE dimsalesreason I18N us_mst (
+        salesreasonkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        salesreasonalternatekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        salesreasonname:text (notnull, sourcetypeid = '-9', sourcetypesize = '50'),
+        salesreasonreasontype:text (notnull, sourcetypeid = '-9', sourcetypesize = '50')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimSalesReason_SalesReasonKey' PRIMARY KEY ( 'salesreasonkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimsalesreason(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD salesreasonkey (any) OPT ANY
+             ADD salesreasonalternatekey (any) OPT ANY
+             ADD salesreasonname (any) OPT ANY
+             ADD salesreasonreasontype (any) OPT ANY
+        )
+        OUTPUTLIST (salesreasonalternatekey, salesreasonkey, salesreasonname, salesreasonreasontype
+        )
+        WRAPPER (jdbc dimsalesreason)
+    );
+

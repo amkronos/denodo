@@ -1,0 +1,52 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factproductinventory
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factproductinventory.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factproductinventory.SCHEMANAME}' 
+    RELATIONNAME='FactProductInventory' 
+    OUTPUTSCHEMA (
+        productkey = 'ProductKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        movementdate = 'MovementDate' :'java.time.LocalDate' (OPT) (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='91', sourcetypename='date')  NOT NULL SORTABLE,
+        unitcost = 'UnitCost' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT NULL NOT SORTABLE,
+        unitsin = 'UnitsIn' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        unitsout = 'UnitsOut' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        unitsbalance = 'UnitsBalance' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PK_FactProductInventory' PRIMARY KEY ( 'ProductKey' , 'DateKey' )
+    CONSTRAINT 'FK_FactProductInventory_DimDate' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactProductInventory_DimProduct' FOREIGN KEY ( 'ProductKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimProduct'( 'ProductKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_FactProductInventory' CLUSTER UNIQUE PRIMARY ( 'ProductKey' , 'DateKey' );
+
+CREATE OR REPLACE TABLE factproductinventory I18N us_mst (
+        productkey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        movementdate:localdate (notnull, sourcetypeid = '91', sourcetypedecimals = '0', sourcetypesize = '10'),
+        unitcost:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        unitsin:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        unitsout:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        unitsbalance:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactProductInventory' PRIMARY KEY ( 'productkey' , 'datekey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factproductinventory(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD productkey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD movementdate (any) OPT ANY
+             ADD unitcost (any) OPT ANY
+             ADD unitsin (any) OPT ANY
+             ADD unitsout (any) OPT ANY
+             ADD unitsbalance (any) OPT ANY
+        )
+        OUTPUTLIST (datekey, movementdate, productkey, unitcost, unitsbalance, unitsin, unitsout
+        )
+        WRAPPER (jdbc factproductinventory)
+    );
+

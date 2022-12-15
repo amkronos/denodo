@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimsalesterritory_factinternetsales REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factinternetsales dimsalesterritory PRINCIPAL (0,1)
+    ENDPOINT dimsalesterritory factinternetsales (0,*)
+    ADD MAPPING salesterritorykey=salesterritorykey;
+

@@ -1,0 +1,7 @@
+﻿CREATE OR REPLACE ASSOCIATION factinternetsales_factinternetsalesreason REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factinternetsalesreason factinternetsales PRINCIPAL (0,1)
+    ENDPOINT factinternetsales factinternetsalesreason (0,*)
+    ADD MAPPING salesordernumber=salesordernumber
+    ADD MAPPING salesorderlinenumber=salesorderlinenumber;
+

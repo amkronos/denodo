@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION "dimemployee_dimemployee_ParentEmployeeKey" REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT "dimemployee_ParentEmployeeKey" dimemployee PRINCIPAL (0,1)
+    ENDPOINT "dimemployee_ParentEmployeeKey_764" dimemployee (0,*)
+    ADD MAPPING employeekey=parentemployeekey;
+

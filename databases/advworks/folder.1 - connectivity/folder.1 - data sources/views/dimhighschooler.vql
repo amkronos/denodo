@@ -1,0 +1,107 @@
+﻿CREATE OR REPLACE WRAPPER DF dimhighschooler
+    FOLDER = '/1 - connectivity/1 - data sources'
+    DATASOURCENAME=highschooler
+    OUTPUTSCHEMA (
+        customerkey = 'customerkey' (OPT),
+        geographykey = 'geographykey' (OPT),
+        customeralternatekey = 'customeralternatekey' (OPT),
+        title = 'title' (OPT),
+        firstname = 'firstname' (OPT),
+        middlename = 'middlename' (OPT),
+        lastname = 'lastname' (OPT),
+        namestyle = 'namestyle' (OPT),
+        birthdate = 'birthdate' (OPT),
+        maritalstatus = 'maritalstatus' (OPT),
+        suffix = 'suffix' (OPT),
+        gender = 'gender' (OPT),
+        emailaddress = 'emailaddress' (OPT),
+        yearlyincome = 'yearlyincome' (OPT),
+        totalchildren = 'totalchildren' (OPT),
+        numberchildrenathome = 'numberchildrenathome' (OPT),
+        englisheducation = 'englisheducation' (OPT),
+        spanisheducation = 'spanisheducation' (OPT),
+        frencheducation = 'frencheducation' (OPT),
+        englishoccupation = 'englishoccupation' (OPT),
+        spanishoccupation = 'spanishoccupation' (OPT),
+        frenchoccupation = 'frenchoccupation' (OPT),
+        houseownerflag = 'houseownerflag' (OPT),
+        numbercarsowned = 'numbercarsowned' (OPT),
+        addressline1 = 'addressline1' (OPT),
+        addressline2 = 'addressline2' (OPT),
+        phone = 'phone' (OPT),
+        datefirstpurchase = 'datefirstpurchase' (OPT),
+        commutedistance = 'commutedistance' (OPT)
+    );
+
+CREATE OR REPLACE TABLE dimhighschooler I18N se (
+        customerkey:text,
+        geographykey:text,
+        customeralternatekey:text,
+        title:text,
+        firstname:text,
+        middlename:text,
+        lastname:text,
+        namestyle:text,
+        birthdate:text,
+        maritalstatus:text,
+        suffix:text,
+        gender:text,
+        emailaddress:text,
+        yearlyincome:text,
+        totalchildren:text,
+        numberchildrenathome:text,
+        englisheducation:text,
+        spanisheducation:text,
+        frencheducation:text,
+        englishoccupation:text,
+        spanishoccupation:text,
+        frenchoccupation:text,
+        houseownerflag:text,
+        numbercarsowned:text,
+        addressline1:text,
+        addressline2:text,
+        phone:text,
+        datefirstpurchase:text,
+        commutedistance:text
+    )
+    FOLDER = '/1 - connectivity/1 - data sources'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimhighschooler(
+        I18N se
+        CONSTRAINTS (
+             ADD customerkey (any) OPT ANY
+             ADD geographykey (any) OPT ANY
+             ADD customeralternatekey (any) OPT ANY
+             ADD title (any) OPT ANY
+             ADD firstname (any) OPT ANY
+             ADD middlename (any) OPT ANY
+             ADD lastname (any) OPT ANY
+             ADD namestyle (any) OPT ANY
+             ADD birthdate (any) OPT ANY
+             ADD maritalstatus (any) OPT ANY
+             ADD suffix (any) OPT ANY
+             ADD gender (any) OPT ANY
+             ADD emailaddress (any) OPT ANY
+             ADD yearlyincome (any) OPT ANY
+             ADD totalchildren (any) OPT ANY
+             ADD numberchildrenathome (any) OPT ANY
+             ADD englisheducation (any) OPT ANY
+             ADD spanisheducation (any) OPT ANY
+             ADD frencheducation (any) OPT ANY
+             ADD englishoccupation (any) OPT ANY
+             ADD spanishoccupation (any) OPT ANY
+             ADD frenchoccupation (any) OPT ANY
+             ADD houseownerflag (any) OPT ANY
+             ADD numbercarsowned (any) OPT ANY
+             ADD addressline1 (any) OPT ANY
+             ADD addressline2 (any) OPT ANY
+             ADD phone (any) OPT ANY
+             ADD datefirstpurchase (any) OPT ANY
+             ADD commutedistance (any) OPT ANY
+        )
+        OUTPUTLIST (addressline1, addressline2, birthdate, commutedistance, customeralternatekey, customerkey, datefirstpurchase, emailaddress, englisheducation, englishoccupation, firstname, frencheducation, frenchoccupation, gender, geographykey, houseownerflag, lastname, maritalstatus, middlename, namestyle, numbercarsowned, numberchildrenathome, phone, spanisheducation, spanishoccupation, suffix, title, totalchildren, yearlyincome
+        )
+        WRAPPER (df dimhighschooler)
+    );
+

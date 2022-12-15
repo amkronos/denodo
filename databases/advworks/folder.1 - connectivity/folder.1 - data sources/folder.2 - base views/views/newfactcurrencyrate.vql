@@ -1,0 +1,42 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC newfactcurrencyrate
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.newfactcurrencyrate.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.newfactcurrencyrate.SCHEMANAME}' 
+    RELATIONNAME='NewFactCurrencyRate' 
+    OUTPUTSCHEMA (
+        averagerate = 'AverageRate' :'java.lang.Float' (OPT) (sourcetyperadix='2', sourcetypesize='24', sourcetypeid='7', sourcetypename='real')  SORTABLE,
+        currencyid = 'CurrencyID' :'java.lang.String' (OPT) (sourcetypesize='3', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        currencydate = 'CurrencyDate' :'java.time.LocalDate' (OPT) (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='91', sourcetypename='date')  SORTABLE,
+        endofdayrate = 'EndOfDayRate' :'java.lang.Float' (OPT) (sourcetyperadix='2', sourcetypesize='24', sourcetypeid='7', sourcetypename='real')  SORTABLE,
+        currencykey = 'CurrencyKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE
+    );
+
+CREATE OR REPLACE TABLE newfactcurrencyrate I18N us_mst (
+        averagerate:float (sourcetypeid = '7', sourcetyperadix = '2', sourcetypesize = '24'),
+        currencyid:text (sourcetypeid = '-9', sourcetypesize = '3'),
+        currencydate:localdate (sourcetypeid = '91', sourcetypedecimals = '0', sourcetypesize = '10'),
+        endofdayrate:float (sourcetypeid = '7', sourcetyperadix = '2', sourcetypesize = '24'),
+        currencykey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD newfactcurrencyrate(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD averagerate (any) OPT ANY
+             ADD currencyid (any) OPT ANY
+             ADD currencydate (any) OPT ANY
+             ADD endofdayrate (any) OPT ANY
+             ADD currencykey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+        )
+        OUTPUTLIST (averagerate, currencydate, currencyid, currencykey, datekey, endofdayrate
+        )
+        WRAPPER (jdbc newfactcurrencyrate)
+    );
+

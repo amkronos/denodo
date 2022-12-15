@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimproduct_factinternetsales REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factinternetsales dimproduct PRINCIPAL (0,1)
+    ENDPOINT dimproduct factinternetsales (0,*)
+    ADD MAPPING productkey=productkey;
+

@@ -1,0 +1,76 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimpromotion
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimpromotion.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimpromotion.SCHEMANAME}' 
+    RELATIONNAME='DimPromotion' 
+    OUTPUTSCHEMA (
+        promotionkey = 'PromotionKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        promotionalternatekey = 'PromotionAlternateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        englishpromotionname = 'EnglishPromotionName' :'java.lang.String' (OPT) (sourcetypesize='255', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanishpromotionname = 'SpanishPromotionName' :'java.lang.String' (OPT) (sourcetypesize='255', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchpromotionname = 'FrenchPromotionName' :'java.lang.String' (OPT) (sourcetypesize='255', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        discountpct = 'DiscountPct' :'java.lang.Double' (OPT) (sourcetyperadix='2', sourcetypesize='53', sourcetypeid='8', sourcetypename='float')  SORTABLE,
+        englishpromotiontype = 'EnglishPromotionType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanishpromotiontype = 'SpanishPromotionType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchpromotiontype = 'FrenchPromotionType' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        englishpromotioncategory = 'EnglishPromotionCategory' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        spanishpromotioncategory = 'SpanishPromotionCategory' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        frenchpromotioncategory = 'FrenchPromotionCategory' :'java.lang.String' (OPT) (sourcetypesize='50', sourcetypeid='-9', sourcetypename='nvarchar')  SORTABLE,
+        startdate = 'StartDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  NOT NULL SORTABLE,
+        enddate = 'EndDate' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  SORTABLE,
+        minqty = 'MinQty' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        maxqty = 'MaxQty' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE
+    )
+    CONSTRAINT 'PK_DimPromotion_PromotionKey' PRIMARY KEY ( 'PromotionKey' )
+    INDEX 'PK_DimPromotion_PromotionKey' CLUSTER UNIQUE PRIMARY ( 'PromotionKey' )
+    INDEX 'AK_DimPromotion_PromotionAlternateKey' OTHER UNIQUE ( 'PromotionAlternateKey' );
+
+CREATE OR REPLACE TABLE dimpromotion I18N us_mst (
+        promotionkey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        promotionalternatekey:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        englishpromotionname:text (sourcetypeid = '-9', sourcetypesize = '255'),
+        spanishpromotionname:text (sourcetypeid = '-9', sourcetypesize = '255'),
+        frenchpromotionname:text (sourcetypeid = '-9', sourcetypesize = '255'),
+        discountpct:double (sourcetypeid = '8', sourcetyperadix = '2', sourcetypesize = '53'),
+        englishpromotiontype:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        spanishpromotiontype:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        frenchpromotiontype:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        englishpromotioncategory:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        spanishpromotioncategory:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        frenchpromotioncategory:text (sourcetypeid = '-9', sourcetypesize = '50'),
+        startdate:timestamp (notnull, sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        enddate:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23'),
+        minqty:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        maxqty:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimPromotion_PromotionKey' PRIMARY KEY ( 'promotionkey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimpromotion(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD promotionkey (any) OPT ANY
+             ADD promotionalternatekey (any) OPT ANY
+             ADD englishpromotionname (any) OPT ANY
+             ADD spanishpromotionname (any) OPT ANY
+             ADD frenchpromotionname (any) OPT ANY
+             ADD discountpct (any) OPT ANY
+             ADD englishpromotiontype (any) OPT ANY
+             ADD spanishpromotiontype (any) OPT ANY
+             ADD frenchpromotiontype (any) OPT ANY
+             ADD englishpromotioncategory (any) OPT ANY
+             ADD spanishpromotioncategory (any) OPT ANY
+             ADD frenchpromotioncategory (any) OPT ANY
+             ADD startdate (any) OPT ANY
+             ADD enddate (any) OPT ANY
+             ADD minqty (any) OPT ANY
+             ADD maxqty (any) OPT ANY
+        )
+        OUTPUTLIST (discountpct, enddate, englishpromotioncategory, englishpromotionname, englishpromotiontype, frenchpromotioncategory, frenchpromotionname, frenchpromotiontype, maxqty, minqty, promotionalternatekey, promotionkey, spanishpromotioncategory, spanishpromotionname, spanishpromotiontype, startdate
+        )
+        WRAPPER (jdbc dimpromotion)
+    );
+

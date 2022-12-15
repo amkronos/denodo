@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimdate_factsurveyresponse REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factsurveyresponse dimdate PRINCIPAL (0,1)
+    ENDPOINT dimdate factsurveyresponse (0,*)
+    ADD MAPPING datekey=datekey;
+

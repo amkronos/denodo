@@ -1,0 +1,6 @@
+﻿CREATE OR REPLACE ASSOCIATION dimpromotion_factresellersales REFERENTIAL CONSTRAINT 
+FOLDER = '/2 - associations'
+    ENDPOINT factresellersales dimpromotion PRINCIPAL (0,1)
+    ENDPOINT dimpromotion factresellersales (0,*)
+    ADD MAPPING promotionkey=promotionkey;
+

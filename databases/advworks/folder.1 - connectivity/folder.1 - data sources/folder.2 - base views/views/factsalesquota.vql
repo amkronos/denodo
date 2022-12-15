@@ -1,0 +1,52 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC factsalesquota
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factsalesquota.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.factsalesquota.SCHEMANAME}' 
+    RELATIONNAME='FactSalesQuota' 
+    OUTPUTSCHEMA (
+        salesquotakey = 'SalesQuotaKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        employeekey = 'EmployeeKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        calendaryear = 'CalendarYear' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        calendarquarter = 'CalendarQuarter' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        salesamountquota = 'SalesAmountQuota' :'java.math.BigDecimal' (OPT) (sourcetypedecimals='4', sourcetyperadix='10', sourcetypesize='19', sourcetypeid='3', sourcetypename='money')  NOT NULL NOT SORTABLE,
+        date = 'Date' :'java.time.LocalDateTime' (OPT) (sourcetypedecimals='3', sourcetypesize='23', sourcetypeid='93', sourcetypename='datetime')  ESCAPE SORTABLE
+    )
+    CONSTRAINT 'PK_FactSalesQuota_SalesQuotaKey' PRIMARY KEY ( 'SalesQuotaKey' )
+    CONSTRAINT 'FK_FactSalesQuota_DimDate' FOREIGN KEY ( 'DateKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimDate'( 'DateKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    CONSTRAINT 'FK_FactSalesQuota_DimEmployee' FOREIGN KEY ( 'EmployeeKey' ) 
+    REFERENCES 'AdventureWorksDW2019'.'dbo'.'DimEmployee'( 'EmployeeKey' )  ON UPDATE NO ACTION  ON DELETE NO ACTION NOT DEFERRABLE 
+    INDEX 'PK_FactSalesQuota_SalesQuotaKey' CLUSTER UNIQUE PRIMARY ( 'SalesQuotaKey' );
+
+CREATE OR REPLACE TABLE factsalesquota I18N us_mst (
+        salesquotakey:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        employeekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        calendaryear:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        calendarquarter:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        salesamountquota:decimal (notnull, sourcetypeid = '3', sourcetyperadix = '10', sourcetypedecimals = '4', sourcetypesize = '19'),
+        date:timestamp (sourcetypeid = '93', sourcetypedecimals = '3', sourcetypesize = '23')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_FactSalesQuota_SalesQuotaKey' PRIMARY KEY ( 'salesquotakey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD factsalesquota(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD salesquotakey (any) OPT ANY
+             ADD employeekey (any) OPT ANY
+             ADD datekey (any) OPT ANY
+             ADD calendaryear (any) OPT ANY
+             ADD calendarquarter (any) OPT ANY
+             ADD salesamountquota (any) OPT ANY
+             ADD date (any) OPT ANY
+        )
+        OUTPUTLIST (calendarquarter, calendaryear, date, datekey, employeekey, salesamountquota, salesquotakey
+        )
+        WRAPPER (jdbc factsalesquota)
+    );
+

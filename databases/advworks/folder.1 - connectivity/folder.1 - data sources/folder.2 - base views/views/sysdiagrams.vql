@@ -1,0 +1,43 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC sysdiagrams
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.sysdiagrams.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.sysdiagrams.SCHEMANAME}' 
+    RELATIONNAME='sysdiagrams' 
+    OUTPUTSCHEMA (
+        name = 'name' :'java.lang.String' (OPT) (sourcetypesize='128', sourcetypeid='-9', sourcetypename='sysname')  NOT NULL NOT SORTABLE,
+        principal_id = 'principal_id' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        diagram_id = 'diagram_id' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int identity')  NOT NULL SORTABLE IS_AUTOINCREMENT,
+        version = 'version' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  SORTABLE,
+        definition = 'definition' :'java.sql.Blob' (OPT) (sourcetypesize='2147483647', sourcetypeid='-3', sourcetypename='varbinary')  NOT SORTABLE
+    )
+    CONSTRAINT 'PK__sysdiagr__C2B05B616B24EA82' PRIMARY KEY ( 'diagram_id' )
+    INDEX 'PK__sysdiagr__C2B05B616B24EA82' CLUSTER UNIQUE PRIMARY ( 'diagram_id' )
+    INDEX 'UK_principal_name' OTHER UNIQUE ( 'principal_id' , 'name' );
+
+CREATE OR REPLACE TABLE sysdiagrams I18N us_mst (
+        name:text (notnull, sourcetypeid = '-9', sourcetypesize = '128'),
+        principal_id:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        diagram_id:int (notnull, autoincrement, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        version:int (sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10'),
+        definition:blob (sourcetypeid = '-3', sourcetypesize = '2147483647')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK__sysdiagr__C2B05B616B24EA82' PRIMARY KEY ( 'diagram_id' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sysdiagrams(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD name (any) OPT ANY
+             ADD principal_id (any) OPT ANY
+             ADD diagram_id (any) OPT ANY
+             ADD version (any) OPT ANY
+             ADD definition NOS ZERO ()
+        )
+        OUTPUTLIST (definition, diagram_id, name, principal_id, version
+        )
+        WRAPPER (jdbc sysdiagrams)
+    );
+

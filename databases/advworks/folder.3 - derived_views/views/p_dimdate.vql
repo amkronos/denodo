@@ -1,0 +1,8 @@
+﻿CREATE OR REPLACE VIEW p_dimdate FOLDER = '/3 - derived_views' (
+    datetime (sourcetypedecimals = '0', sourcetypeid = '2014')
+ )
+ AS SELECT dimdate.datekey AS datekey, dimdate.fulldatealternatekey AS fulldatealternatekey, to_date('MM/dd/yyyy HH:mm:ss', formatdate('MM/dd/yyyy HH:mm:ss', fulldatealternatekey)) AS datetime, dimdate.daynumberofweek AS daynumberofweek, dimdate.englishdaynameofweek AS englishdaynameofweek, dimdate.spanishdaynameofweek AS spanishdaynameofweek, dimdate.frenchdaynameofweek AS frenchdaynameofweek, dimdate.daynumberofmonth AS daynumberofmonth, dimdate.daynumberofyear AS daynumberofyear, dimdate.weeknumberofyear AS weeknumberofyear, dimdate.englishmonthname AS englishmonthname, dimdate.spanishmonthname AS spanishmonthname, dimdate.frenchmonthname AS frenchmonthname, dimdate.monthnumberofyear AS monthnumberofyear, dimdate.calendarquarter AS calendarquarter, dimdate.calendaryear AS calendaryear, dimdate.calendarsemester AS calendarsemester, dimdate.fiscalquarter AS fiscalquarter, dimdate.fiscalyear AS fiscalyear, dimdate.fiscalsemester AS fiscalsemester FROM dimdate CONTEXT ('I18N' = 'se');
+
+ALTER VIEW p_dimdate
+ LAYOUT (dimdate = [20, 20, 200, 105]);
+

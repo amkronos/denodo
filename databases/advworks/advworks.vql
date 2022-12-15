@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE DATABASE advworks 'Adventure Works Data Warehouse';
+
+ALTER DATABASE advworks
+  CHARSET DEFAULT;
+

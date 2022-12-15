@@ -1,0 +1,85 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC dimdate
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    DATASOURCENAME=advworks
+    CATALOGNAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimdate.CATALOGNAME}' 
+    SCHEMANAME='${databases.advworks.folder.1 - connectivity.folder.1 - data sources.folder.2 - base views.views.jdbc.dimdate.SCHEMANAME}' 
+    RELATIONNAME='DimDate' 
+    OUTPUTSCHEMA (
+        datekey = 'DateKey' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='10', sourcetypeid='4', sourcetypename='int')  NOT NULL SORTABLE,
+        fulldatealternatekey = 'FullDateAlternateKey' :'java.time.LocalDate' (OPT) (sourcetypedecimals='0', sourcetypesize='10', sourcetypeid='91', sourcetypename='date')  NOT NULL SORTABLE,
+        daynumberofweek = 'DayNumberOfWeek' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        englishdaynameofweek = 'EnglishDayNameOfWeek' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        spanishdaynameofweek = 'SpanishDayNameOfWeek' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        frenchdaynameofweek = 'FrenchDayNameOfWeek' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        daynumberofmonth = 'DayNumberOfMonth' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        daynumberofyear = 'DayNumberOfYear' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        weeknumberofyear = 'WeekNumberOfYear' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        englishmonthname = 'EnglishMonthName' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        spanishmonthname = 'SpanishMonthName' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        frenchmonthname = 'FrenchMonthName' :'java.lang.String' (OPT) (sourcetypesize='10', sourcetypeid='-9', sourcetypename='nvarchar')  NOT NULL SORTABLE,
+        monthnumberofyear = 'MonthNumberOfYear' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        calendarquarter = 'CalendarQuarter' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        calendaryear = 'CalendarYear' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        calendarsemester = 'CalendarSemester' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        fiscalquarter = 'FiscalQuarter' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE,
+        fiscalyear = 'FiscalYear' :'java.lang.Short' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='5', sourcetypeid='5', sourcetypename='smallint')  NOT NULL SORTABLE,
+        fiscalsemester = 'FiscalSemester' :'java.lang.Integer' (OPT) (sourcetypedecimals='0', sourcetyperadix='10', sourcetypesize='3', sourcetypeid='-6', sourcetypename='tinyint')  NOT NULL SORTABLE
+    )
+    CONSTRAINT 'PK_DimDate_DateKey' PRIMARY KEY ( 'DateKey' )
+    INDEX 'PK_DimDate_DateKey' CLUSTER UNIQUE PRIMARY ( 'DateKey' )
+    INDEX 'AK_DimDate_FullDateAlternateKey' OTHER UNIQUE ( 'FullDateAlternateKey' );
+
+CREATE OR REPLACE TABLE dimdate I18N us_mst (
+        datekey:int (notnull, sourcetypeid = '4', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '10', description = 'test desc'),
+        fulldatealternatekey:localdate (notnull, sourcetypeid = '91', sourcetypedecimals = '0', sourcetypesize = '10'),
+        daynumberofweek:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        englishdaynameofweek:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        spanishdaynameofweek:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        frenchdaynameofweek:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        daynumberofmonth:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        daynumberofyear:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        weeknumberofyear:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        englishmonthname:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        spanishmonthname:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        frenchmonthname:text (notnull, sourcetypeid = '-9', sourcetypesize = '10'),
+        monthnumberofyear:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        calendarquarter:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        calendaryear:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        calendarsemester:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        fiscalquarter:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3'),
+        fiscalyear:int (notnull, sourcetypeid = '5', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '5'),
+        fiscalsemester:int (notnull, sourcetypeid = '-6', sourcetyperadix = '10', sourcetypedecimals = '0', sourcetypesize = '3')
+    )
+    FOLDER = '/1 - connectivity/1 - data sources/2 - base views'
+    CONSTRAINT 'PK_DimDate_DateKey' PRIMARY KEY ( 'datekey' )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD dimdate(
+        I18N us_mst
+        CONSTRAINTS (
+             ADD datekey (any) OPT ANY
+             ADD fulldatealternatekey (any) OPT ANY
+             ADD daynumberofweek (any) OPT ANY
+             ADD englishdaynameofweek (any) OPT ANY
+             ADD spanishdaynameofweek (any) OPT ANY
+             ADD frenchdaynameofweek (any) OPT ANY
+             ADD daynumberofmonth (any) OPT ANY
+             ADD daynumberofyear (any) OPT ANY
+             ADD weeknumberofyear (any) OPT ANY
+             ADD englishmonthname (any) OPT ANY
+             ADD spanishmonthname (any) OPT ANY
+             ADD frenchmonthname (any) OPT ANY
+             ADD monthnumberofyear (any) OPT ANY
+             ADD calendarquarter (any) OPT ANY
+             ADD calendaryear (any) OPT ANY
+             ADD calendarsemester (any) OPT ANY
+             ADD fiscalquarter (any) OPT ANY
+             ADD fiscalyear (any) OPT ANY
+             ADD fiscalsemester (any) OPT ANY
+        )
+        OUTPUTLIST (calendarquarter, calendarsemester, calendaryear, datekey, daynumberofmonth, daynumberofweek, daynumberofyear, englishdaynameofweek, englishmonthname, fiscalquarter, fiscalsemester, fiscalyear, frenchdaynameofweek, frenchmonthname, fulldatealternatekey, monthnumberofyear, spanishdaynameofweek, spanishmonthname, weeknumberofyear
+        )
+        WRAPPER (jdbc dimdate)
+    );
+
